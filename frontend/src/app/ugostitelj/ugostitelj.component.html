@@ -1,0 +1,178 @@
+<div id="logout" style="position: absolute; top: 0; right: 0; z-index: 2;" (click)="logout()" >
+  <a class="btn btn-info btn-lg" >
+    <span class="glyphicon glyphicon-log-out"></span> Odjava
+  </a>
+</div>
+
+<mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="tabChanged($event)" >
+  
+    <mat-tab label="Unos ugostiteljskog objekta">
+      <div style="display: flex; justify-content: center;">
+        <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Naziv ugostiteljskog objekta</mat-label>
+                <input type="text" matInput name="naziv" [(ngModel)]="naziv" required />
+
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Vrsta ugostiteljskog objekta</mat-label>
+              <mat-select name='vrsta' [(ngModel)]='vrsta' required>
+                <mat-option value="hotel">Hotel</mat-option>
+                <mat-option value="motel">Motel</mat-option>
+                <mat-option value="turisticko naselje">Turisticko naselje</mat-option>
+                <mat-option value="odmaraliste">Odmaraliste</mat-option>
+                <mat-option value="apartman">Apartman</mat-option>
+
+              </mat-select>
+
+          </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Adresa ugostiteljskog objekta</mat-label>
+                <textarea name="adresa" matInput [(ngModel)]="adresa" required> </textarea>
+
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Grad</mat-label>
+                <input type="text" name="grad" matInput  [(ngModel)]="grad" required /> 
+            </mat-form-field>     
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Opis ugostiteljskog objekta</mat-label>
+                <textarea name="opis" matInput [(ngModel)]="opis" required> </textarea>
+
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              
+              <mat-label>Ovlasceni korisnik</mat-label>
+              <mat-select name='ovlasceni' [(ngModel)]='ovlasceniKorisnici' required>
+                <mat-option *ngFor='let korisnik of sviOvlasceniKorisnici' [value]="korisnik.username">{{korisnik.ime}} {{korisnik.prezime}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div>
+                <button type="button" mat-raised-button (click)="fileInput.click()" color="primary" 
+                  style="display: block;  margin: 0 auto;"> Dodaj fotografije </button>
+                <input style="display: none;" (change)="uploadMultiple($event)" #fileInput type="file"
+                  accept=".jpg, .jpeg, .png" id="file" multiple />
+            </div>
+            <br/>
+            <div *ngIf='slike' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center;">Broj dodatih slika: {{this.slike.target.files.length}}</div>  
+            <div *ngIf='!slike' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center;">Broj dodatih slika: 0</div> 
+
+            <br/> <br/>
+            <button mat-raised-button color="primary" style="display: block;  margin-left: auto; margin-right: auto;" (click)="unesiUgostiteljskiObjekat()">Unesi ugostiteljski objekat</button>  
+            
+            <br/>
+            <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center; color:red"> <b> {{message}} </b></div>
+        </form>
+      </div>
+        
+    </mat-tab>
+    <mat-tab label= "Pretraga ugostiteljskih objekata">
+        <mat-grid-list cols="2" >
+            <mat-grid-tile style="justify-content: flex-start !important ;align-items: flex-start !important;">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Naziv ugostiteljskog objekta</mat-label>
+                        <input type="text" matInput name="naziv" [(ngModel)]="nazivPretraga"  />
+        
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Adresa ugostiteljskog objekta</mat-label>
+                        <textarea name="adresa" matInput [(ngModel)]="adresaPretraga"> </textarea>
+        
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Grad</mat-label>
+                        <input type="text" name="grad" matInput  [(ngModel)]="gradPretraga"  /> 
+                    </mat-form-field>  
+                    
+                    <br/> <br/>
+                    <button mat-raised-button color="primary" style="display: block;  margin-left: auto; margin-right: auto;" (click)="pretraziUgostiteljskeObjekte()">Pretrazi ugostiteljske objekte</button>  
+                    
+                    <br/>
+                </form>
+            </mat-grid-tile>
+        <mat-grid-tile class = "rezultat" style=" height: min-content">
+            <div class="content" style=" height: 100%;">
+                <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                <div fxFlex="50%"  *ngFor="let objekat of pretrazeniUgostiteljskiObjekti">
+                <mat-card  style="height: 480px;">
+                  <mat-card-header>
+                    <mat-card-title>{{objekat.naziv}}</mat-card-title>
+                    <mat-card-subtitle>{{objekat.grad}}</mat-card-subtitle>
+                  </mat-card-header>
+                  <img mat-card-image src={{objekat.slike[0]}} alt="Photo of a Shiba Inu">
+                  <mat-card-content>
+                    <p>
+                      {{objekat.opis | slice:0:110}} ...
+                    </p>
+                  </mat-card-content>
+                  <mat-card-actions style="position: relative; bottom: 0;">
+                    <button mat-button (click)="detaljnije(objekat)">Detaljnije</button>
+                    <button mat-button *ngIf="objekat.username == korisnik.username" (click)="izmeni(objekat)">Izmeni</button>
+                  </mat-card-actions>
+                  
+                </mat-card>
+            </div>
+            </div>
+            </div>
+        </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label = "Kategorizacija mojih ugostiteljskih objekata">
+        <div class="content" style=" height: 100%;">
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+            <div fxFlex="25%"  *ngFor="let objekat of mojiNekategorisaniObjekti">
+            <mat-card style="height: 500px;">
+              <mat-card-header>
+                <mat-card-title>{{objekat.naziv}}</mat-card-title>
+                <mat-card-subtitle>{{objekat.grad}}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src={{objekat.slike[0]}} alt="Photo of a Shiba Inu">
+              <mat-card-content>
+                <p>
+                  {{objekat.opis | slice:0:110}} ...
+                </p>
+              </mat-card-content>
+              <mat-card-actions style="align-content: center;">
+                <button mat-button (click)="kategorisi(objekat)" style="justify-content: center;" *ngIf='!objekat.poslatZahtev'>Podnesi zahtev za kategorizaciju</button>
+                <button mat-button (click)="izmeniZahtev(objekat)" style="justify-content: center;" *ngIf='objekat.poslatZahtev'>Izmeni zahtev za kategorizaciju</button>
+              </mat-card-actions>
+              
+            </mat-card>
+            </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Isplata boravisne takse">
+      
+        <h2 style="text-align: center;"> <i>Vase ukupno zaduzenje je {{korisnik.boravisnaTaksa}} dinara</i></h2> 
+        <hr style="width: 75%;">
+        
+        <div style="display: flex; justify-content: center;">
+          
+    <div><button mat-raised-button color="primary" (click)="uplati(korisnik.boravisnaTaksa)">Uplati ceo iznos</button></div>
+    &nbsp; &nbsp; &nbsp;
+    
+    <div><button mat-raised-button color="primary" (click)="uplatiDeoZaduzenja()">Uplati deo</button>
+      <div *ngIf='uplatiDeo'> 
+        <form class="example-form">
+          <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Iznos</mat-label>
+              <input type="text" matInput name="deoNovca" [(ngModel)]="deoNovca" required />
+
+          </mat-form-field>
+
+          </form>
+          <button mat-raised-button color="primary" (click)="uplati(deoNovca)">Uplati</button>
+          </div>
+          </div>
+        
+      </div>
+
+    </mat-tab>
+</mat-tab-group>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

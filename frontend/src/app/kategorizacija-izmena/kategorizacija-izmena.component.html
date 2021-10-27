@@ -1,0 +1,62 @@
+
+  <mat-stepper linear #stepper>
+    <mat-step  [editable]=true>
+     
+        <ng-template matStepLabel>Preuzimanje potrebnog formulara</ng-template>
+        
+          <div >
+            <i>
+              Postovani, 
+              <br/>
+              <br/>
+              Vas formular mozete preuzeti <a [href]="zahtevZaKategorizaciju.formular">ovde</a>
+              <br/>
+              <br/>
+              Nakon sto izmenite formular pritisnite dugme "Dalje" </i> 
+
+          </div>
+
+         
+        <br/> <br/>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext>Dalje</button>
+        </div>
+      
+    </mat-step>
+    <mat-step  [editable]="true">
+     
+        <ng-template matStepLabel>Predaja formulara</ng-template>
+          <i>
+            Izmenjen formular potrebno je da predate pritiskom na dugme "Predaj"
+          </i>
+          <br/>
+          <div>
+            <button type="button" mat-raised-button (click)="fileInput.click()" color="primary" >Predaj</button>
+            <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file" multiple />
+        </div>
+        <br/>
+        <i> Nakon uspesne predaje formulara, pritisnite dugme "Dalje"</i>
+        <br/> <br/>
+        <div>
+          <button mat-raised-button color="primary" matStepperPrevious>Nazad</button>
+          &nbsp; &nbsp;
+          <button mat-raised-button color="primary" matStepperNext>Dalje</button>
+        </div>
+      
+    </mat-step>
+    
+     
+    <mat-step>
+      <ng-template matStepLabel>Zavrsi</ng-template>
+      <p><i> Pritiskom na dugme "Zavrsi" Vas zahtev za kategorizaciju bice izmenjen i poslat na razmatranje</i></p>
+      <div>
+        <button mat-raised-button color="primary" matStepperPrevious>Nazad</button>
+        &nbsp; &nbsp;
+        <button mat-raised-button color="primary" (click)="posalji()">Zavrsi</button>
+      </div>
+      <br/> <br/>
+      <div *ngIf='message'>
+        <i> {{message}} </i>
+      </div>
+    </mat-step>
+  </mat-stepper>

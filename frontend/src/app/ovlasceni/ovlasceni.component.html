@@ -1,0 +1,194 @@
+<div id="logout" style="position: absolute; top: 0; right: 0; z-index: 2;" (click)="logout()" >
+    <a class="btn btn-info btn-lg" >
+      <span class="glyphicon glyphicon-log-out"></span> Odjava
+    </a>
+  </div>
+  
+  <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="tabChanged($event)" >
+    
+      
+      <mat-tab label= "Pretraga zahteva za kategorizaciju">
+          <mat-grid-list cols="2" >
+              <mat-grid-tile style="justify-content: flex-start !important ;align-items: flex-start !important;">
+                  <form class="example-form">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>Naziv objekta</mat-label>
+                          <input type="text" matInput name="naziv" [(ngModel)]="nazivPretraga"  />
+          
+                      </mat-form-field>
+                      
+
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Username ugostitelja</mat-label>
+                        <input type="text" matInput name="username" [(ngModel)]="usernamePretraga"  />
+        
+                    </mat-form-field>
+                      
+                      
+                      <br/> <br/>
+                      <button mat-raised-button color="primary" style="display: block;  margin-left: auto; margin-right: auto;" (click)="pretraziZahteve()">Pretrazi zahteve</button>  
+                      
+                      <br/>
+                      <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center;"> {{message}} </div>
+                  </form>
+              </mat-grid-tile>
+          <mat-grid-tile class = "rezultat" style=" height: min-content">
+              <div class="content" style=" height: 100%; width: 100%;">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Naziv objekta</th>
+                            <th scope="col">Username ugostitelja</th>
+                            <th scope="col">Zahtev za kategorizaciju</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor='let zahtev of pretrazeniZahtevi; let index = index'>
+                            <th scope="row">{{index + 1}}</th>
+                            <td>{{zahtev.naziv}}</td>
+                            <td>{{zahtev.username}}</td>
+                            <td>Popunjen zahtev za kategorizaciju mozete preuzeti <a [href]="zahtev.formular">ovde</a></td>
+                          </tr>
+                         
+                        </tbody>
+                      </table>
+          
+              </div>
+          </mat-grid-tile>
+          </mat-grid-list>
+      </mat-tab>
+      <mat-tab label= "Evidencija korisnika usluge smestaja">
+        <mat-grid-list cols="2" >
+            <mat-grid-tile style="justify-content: flex-start !important ;align-items: flex-start !important;">
+                <form class="example-form">
+                    <table class="example-full-width" cellspacing="0"><tr>
+                        <td>
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Ime</mat-label>
+                                <input type="text" matInput name="ime" [(ngModel)]="imePretraga"  />
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Prezime</mat-label>
+                                <input type="text" matInput name="prezime" [(ngModel)]="prezimePretraga"  />
+                
+                            </mat-form-field>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Naziv objekta</mat-label>
+
+                        <mat-select name='objekat' [(ngModel)]='objekatPretraga' >
+                            <mat-option *ngFor='let objekat of mojiObjekti' [value]="objekat.naziv">{{objekat.naziv}}  </mat-option>
+                        </mat-select>
+        
+                    </mat-form-field>
+
+                   
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Kontakt telefon</mat-label>
+                        <input type="text" matInput name="telefon" [(ngModel)]="telefonPretraga"  />
+        
+                    </mat-form-field>
+
+                    <table class="example-full-width" cellspacing="0"><tr>
+                        <td>
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Broj godina</mat-label>
+                                <input type="text" matInput name="godine" [(ngModel)]="godinePretraga"  />
+                
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Broj nocenja</mat-label>
+                                <input type="text" matInput name="nocenje" [(ngModel)]="nocenjePretraga"  />
+                
+                            </mat-form-field>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                    
+                    
+                        <div> <i> Lice upućeno na banjsko i klimatsko lečenje, odnosno specijalizovanu rehabilitaciju od strane nadležne lekarske komisije </i></div>
+                        <mat-radio-group name="lecenje" aria-label="Select an option" [(ngModel)]="lecenjePretraga">
+                            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+                            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+                        </mat-radio-group>
+
+                        <div> <i> Lice sa invaliditetom </i></div>
+                        <mat-radio-group name="invaliditet" aria-label="Select an option" [(ngModel)]="invaliditetPretraga">
+                            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+                            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+                        </mat-radio-group>
+
+                        <div> <i> Strani državljanin koji je po međunarodnim konvencijama i sporazumima oslobođen plaćanja takse </i></div>
+                        <mat-radio-group name="straniOslobodjen" aria-label="Select an option" [(ngModel)]="straniOslobodjenPretraga">
+                            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+                            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+                        </mat-radio-group>
+
+
+                    
+                    <br/> <br/>
+                    <div style="display: flex; justify-content: center;">
+                        <button mat-raised-button color="primary"  (click)="pretraziKorisnike()">Pretrazi korisnike</button>  
+                        <!-- &nbsp; &nbsp; &nbsp;
+                        <button mat-raised-button color="primary"  (click)="dodajKorisnika()">Dodaj korisnika</button> -->
+                    </div>
+                    <!-- <br/>
+                    <div style="display: flex; justify-content: center;">
+                        <a href="assets\formular.txt" download="formular.txt" style="margin-top: auto; margin-bottom: auto;"> <i>Preuzmi formular</i></a> 
+                       
+                    </div>
+                    <br/>
+                    <div style="display: flex; justify-content: center;">
+                        <button type="button" mat-raised-button (click)="fileInput.click()" color="primary" style="display: block;  margin-left: auto; margin-right: auto;">Predaj formular</button>
+                        <input style="display: none;" (change)="upload($event)" #fileInput type="file" id="file"  />
+                    </div> -->
+                    
+                    
+                    <br/>
+                    <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center; color:red"> <b>{{message}}</b> </div>
+                </form>
+            </mat-grid-tile>
+        <mat-grid-tile class = "rezultat" style=" height: min-content">
+            <div class="content" style=" height: 100%; width: 100%;">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">Ime</th>
+                          <th scope="col">Prezime</th>
+                          <th scope="col">Objekat</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor='let turista of pretrazeniTuristi; let index = index'>
+                          <th scope="row">{{index + 1}}</th>
+                          <td>{{turista.ime}}</td>
+                          <td>{{turista.prezime}}</td>
+                          <td>{{turista.objekat}}</td>
+                          <td><button mat-raised-button color="primary"  (click)="izmena(turista)">Detalji / Izmena</button>  </td>
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+        
+            </div>
+        </mat-grid-tile>
+        </mat-grid-list>
+      </mat-tab>
+      
+  </mat-tab-group>
+  
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

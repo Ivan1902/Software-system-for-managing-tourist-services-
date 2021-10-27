@@ -1,0 +1,11 @@
+Evidencija korisnika usluge smestaja
+
+Ime: 
+Prezime:
+Kontakt telefon:
+Broj godina:
+Naziv objekta:
+Broj nocenja:
+Lice upućeno na banjsko i klimatsko lečenje, odnosno specijalizovanu rehabilitaciju od strane nadležne lekarske komisije:
+Lice sa invaliditetom:
+Strani državljanin koji je po međunarodnim konvencijama i sporazumima oslobođen plaćanja takse:

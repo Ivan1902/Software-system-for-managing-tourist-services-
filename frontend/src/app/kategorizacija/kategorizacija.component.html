@@ -1,0 +1,101 @@
+
+  <mat-stepper linear #stepper>
+    <mat-step  [editable]=true>
+     
+        <ng-template matStepLabel>Preuzimanje potrebnog formulara</ng-template>
+        
+          <div *ngIf="objekat.vrsta == 'apartman'">
+            <i>
+              Postovani, 
+              <br/>
+              <br/>
+              formular za podnosenje zahteva za kategorizaciju vaseg ugostiteljskog objekta mozete preuzeti <a [href]="'http://localhost:4000/docs/apartman.doc'">ovde</a>
+              <br/>
+              <br/>
+              Nakon sto popunite formular pritisnite dugme "Dalje" </i> 
+
+          </div>
+
+          <div *ngIf="objekat.vrsta == 'hotel'">
+            <i>
+            Postovani, 
+            <br/>
+            <br/>
+            formular za podnosenje zahteva za kategorizaciju vaseg ugostiteljskog objekta mozete preuzeti <a [href]="'http://localhost:4000/docs/hotel.docx'">ovde</a>
+            <br/>
+            <br/>
+            Nakon sto popunite formular pritisnite dugme "Dalje" </i>
+          </div>
+
+          <div *ngIf="objekat.vrsta == 'motel'">
+            <i>
+              Postovani, 
+              <br/>
+              <br/>
+              formular za podnosenje zahteva za kategorizaciju vaseg ugostiteljskog objekta mozete preuzeti <a [href]="'http://localhost:4000/docs/hotel.docx'">ovde</a>
+              <br/>
+              <br/>
+              Nakon sto popunite formular pritisnite dugme "Dalje" </i> 
+
+          </div>
+
+          <div *ngIf="objekat.vrsta == 'kuca'">
+            <i>
+              Postovani, 
+              <br/>
+              <br/>
+              formular za podnosenje zahteva za kategorizaciju vaseg ugostiteljskog objekta mozete preuzeti <a [href]="'http://localhost:4000/docs/kuca.doc'">ovde</a>
+              <br/>
+              <br/>
+              Nakon sto popunite formular pritisnite dugme "Dalje" </i> 
+
+          </div>
+
+          <div *ngIf="objekat.vrsta == 'turisticko naselje'">
+            Postovani, 
+            <br/>
+            formular za podnosenje zahteva za kategorizaciju vaseg ugostiteljskog objekta mozete preuzeti <a [href]="'http://localhost:4000/docs/turisticko_naselje.doc'">ovde</a>
+          </div>
+        <br/> <br/>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext>Dalje</button>
+        </div>
+      
+    </mat-step>
+    <mat-step  [editable]="true">
+     
+        <ng-template matStepLabel>Predaja formulara</ng-template>
+          <i>
+            Popunjen formular potrebno je da predate pritiskom na dugme "Predaj"
+          </i>
+          <br/>
+          <div>
+            <button type="button" mat-raised-button (click)="fileInput.click()" color="primary" >Predaj</button>
+            <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file" multiple />
+        </div>
+        <br/>
+        <i> Nakon uspesne predaje formulara, pritisnite dugme "Dalje"</i>
+        <br/> <br/>
+        <div>
+          <button mat-raised-button color="primary" matStepperPrevious>Nazad</button>
+          &nbsp; &nbsp;
+          <button mat-raised-button color="primary" matStepperNext>Dalje</button>
+        </div>
+      
+    </mat-step>
+    
+     
+    <mat-step>
+      <ng-template matStepLabel>Zavrsi</ng-template>
+      <p><i> Pritiskom na dugme "Zavrsi" Vas zahtev za kategorizaciju bice poslat na razmatranje</i></p>
+      <div>
+        <button mat-raised-button color="primary" matStepperPrevious>Nazad</button>
+        &nbsp; &nbsp;
+        <button mat-raised-button color="primary" (click)="posalji()">Zavrsi</button>
+      </div>
+      <br/> <br/>
+      <div *ngIf='message' style="color: red;">
+        <i> <b> {{message}} </b></i>
+      </div>
+    </mat-step>
+  </mat-stepper>

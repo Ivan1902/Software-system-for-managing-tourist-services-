@@ -1,0 +1,91 @@
+<div id="nazad" style="position: absolute; top: 0; right: 0; z-index: 3;" (click)="nazad()">
+    <a class="btn btn-info btn-lg">
+      <span class="glyphicon glyphicon-log-out"></span> Nazad
+    </a>
+  </div>
+<div style="display: flex; justify-content: center;">
+<form class="example-form">
+    <table class="example-full-width" cellspacing="0"><tr>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Naziv ugostiteljskog objekta</mat-label>
+                <input type="text" matInput name="naziv" [(ngModel)]="objekat.naziv"  />
+        
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Vrsta ugostiteljskog objekta</mat-label>
+              <mat-select name='vrsta' [(ngModel)]='objekat.vrsta' required>
+                <mat-option value="hotel">Hotel</mat-option>
+                <mat-option value="motel">Motel</mat-option>
+                <mat-option value="turisticko naselje">Turisticko naselje</mat-option>
+                <mat-option value="odmaraliste">Odmaraliste</mat-option>
+                <mat-option value="apartman">Apartman</mat-option>
+
+              </mat-select>
+            </mat-form-field>   
+        </td>
+        </tr>
+    </table>  
+
+    <table class="example-full-width" cellspacing="0"><tr>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Adresa ugostiteljskog objekta</mat-label>
+                <input type="text"  name="adresa" matInput [(ngModel)]="objekat.adresa" /> 
+        
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Grad</mat-label>
+                <input type="text" name="grad" matInput  [(ngModel)]="objekat.grad"  /> 
+            </mat-form-field>   
+        </td>
+        </tr>
+    </table>  
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Opis ugostiteljskog objekta</mat-label>
+        <textarea name="opis" matInput [(ngModel)]="objekat.opis" > </textarea>
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+              
+        <mat-label>Ovlasceni korisnik</mat-label>
+        <mat-select name='ovlasceni' [(ngModel)]='objekat.ovlasceni' >
+          <mat-option *ngFor='let korisnik of sviOvlasceniKorisnici' [value]="korisnik.username">{{korisnik.ime}} {{korisnik.prezime}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <div *ngIf="slika">
+        <img src={{slika}}>
+    </div>
+    <div *ngIf="!slika" style="display: flex; justify-content: center;">
+        <i> Nema dostupnih slika </i>
+        <br/>
+    </div>
+    <div style="display: flex;">
+        <button mat-raised-button color="primary" style="float: left;" (click)="previous()">Prev</button>
+        <button mat-raised-button color="warn" style="margin: auto;"(click)="delete()">Ukloni sliku</button>
+        <button mat-raised-button color="primary" style="float: right;" (click)="next()">Next</button>
+    </div>
+    <br/>
+    <div>
+        <button type="button" mat-raised-button (click)="fileInput.click()" color="primary" style="display: block;  margin-left: auto; margin-right: auto;">Dodaj slike</button>
+        <input style="display: none;" (change)="uploadMultiple($event)" #fileInput type="file" id="file" multiple />
+    </div>
+    <br/>
+    <div style="display: flex;">
+        <button mat-raised-button color="primary" style="display: block;  margin-left: auto; margin-right: auto;" (click)="izmeni()">Izmeni ugostiteljski objekat</button>  
+        <button mat-raised-button color="warn" style="display: block;  margin-left: auto; margin-right: auto;" (click)="ukloni()">Ukloni ugostiteljski objekat</button>  
+
+    </div>
+    
+    <br/>
+    <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center; color: red;"> <b>{{message}}</b> </div>
+</form>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -1,0 +1,213 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div id="logout" style="position: absolute; top: 0; right: 0; z-index: 3;" onclick="logout()">
+    <a href="#" class="btn btn-info btn-lg">
+      <span class="glyphicon glyphicon-log-out"></span> Odjava
+    </a>
+  </div>
+
+<mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="tabChanged($event)">
+    <mat-tab label = "Unesi novog ugostitelja">
+        <mat-card>
+            <mat-card-title>
+                Unos novog ugostitelja
+            </mat-card-title>
+            <form >
+                <mat-form-field>
+                    <mat-label>Ime</mat-label>
+                    <input matInput type="text" name='ime' [(ngModel)]='ime' required>
+                    
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Prezime</mat-label>
+                    <input matInput type="text" name='prezime' [(ngModel)]='prezime' required>
+                    
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Korisnicko ime</mat-label>
+                    <input matInput type="text" name='username' [(ngModel)]='username' required>
+                    
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Lozinka</mat-label>
+                    <input matInput type="password" name='password' [(ngModel)]='password' required>
+                    
+        
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Potvrda lozinke</mat-label>
+                    <input matInput type="password" name='passwordConfirmation' [(ngModel)]='passwordConfirmation' required>
+                    
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Broj telefona</mat-label>
+                    <input matInput type="text" name='brTelefona' [(ngModel)]='brTelefona' required>
+                    
+        
+                </mat-form-field>
+                <mat-form-field >
+                    <mat-label>Tip</mat-label>
+                    <mat-select name='tip' [(ngModel)]='tip' required>
+                        <mat-option value="pravno lice">Pravno lice</mat-option>
+                        <mat-option value="preduzetnik">Preduzetnik</mat-option>
+                        <mat-option value="fizicko lice">Fizicko lice</mat-option>
+                        <mat-option value="ustanova">Ustanova</mat-option>
+                        <mat-option value="ovlasceni">Ovlasceni korisnik</mat-option>
+                      </mat-select>
+                    
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Registrovan kod nadleznog organa</mat-label>
+                  <mat-select name="registrovan" [(ngModel)]="registrovan" required>
+                    <mat-option value="true">Da</mat-option>
+                    <mat-option value="false">Ne</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
+                <button mat-raised-button color="primary" (click)="dodajUgostitelja()"  >Dodaj ugostitelja</button>
+                <br/>
+                <mat-error *ngIf="message!=null">
+                  <i><b>{{message}}</b></i>
+              </mat-error>
+            </form>
+            
+        </mat-card>
+        
+    </mat-tab>
+    <mat-tab label = "Evidencija korisnika sistema">
+        <mat-grid-list cols="2" >
+            <mat-grid-tile style="justify-content: flex-start !important ;align-items: flex-start !important;">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Ime korisnika</mat-label>
+                        <input type="text" matInput name="imePretraga" [(ngModel)]="imePretraga"  />
+        
+                    </mat-form-field>
+                    
+
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Prezime korisnika</mat-label>
+                      <input type="text" matInput name="prezimePretraga" [(ngModel)]="prezimePretraga"  />
+      
+                  </mat-form-field>
+
+
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tip korisnika</mat-label>
+                    <mat-select name='tipPretraga' [(ngModel)]='tipPretraga'>
+                        <mat-option value="pravno lice">Pravno lice</mat-option>
+                        <mat-option value="preduzetnik">Preduzetnik</mat-option>
+                        <mat-option value="fizicko lice">Fizicko lice</mat-option>
+                        <mat-option value="ustanova">Ustanova</mat-option>
+                        <mat-option value="ovlasceni">Ovlasceni korisnik</mat-option>
+                      </mat-select>
+    
+                </mat-form-field>
+
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Broj telefona korisnika</mat-label>
+                    <input type="text" matInput name="telefonPretraga" [(ngModel)]="telefonPretraga"  />
+    
+                </mat-form-field>
+                    
+                    
+                    <br/> <br/>
+                    <button mat-raised-button color="primary" style="display: block;  margin-left: auto; margin-right: auto;" (click)="pretraziKorisnike()">Pretrazi korisnike</button>  
+                    
+                </form>
+            </mat-grid-tile>
+        <mat-grid-tile class = "rezultat" style=" height: min-content">
+            <div class="content" style=" height: 100%; width: 100%;">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col">Ime </th>
+                          <th scope="col">Prezime</th>
+                          <th scope="col">Tip</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor='let korisnik of pretrazeniKorisnici; let index = index'>
+                          <th scope="row">{{index + 1}}</th>
+                          <td>{{korisnik.ime}}</td>
+                          <td>{{korisnik.prezime}}</td>
+                          <td>{{korisnik.tip}}</td>
+                          <td> <button mat-raised-button color="primary"  (click)="izmena(korisnik)">Detalji / Izmena</button>  </td>
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+        
+            </div>
+        </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label = "Zahtevi za kategorizaciju">
+        <div style="display: flex; justify-content: center;">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Naziv ugostiteljskog objekta </th>
+                <th scope="col">Zahtev za kategorizaciju</th>
+                <th scope="col">Ocena</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let zahtev of sviZahtevi; let index = index'>
+                <th scope="row" style="vertical-align: middle;">{{index + 1}}</th>
+                <td style="vertical-align: middle;">{{zahtev.naziv}}</td>
+                <td style="vertical-align: middle;"> Popunjen zahtev za kategorizaciju mozete preuzeti <a [href]="zahtev.formular"> ovde</a> </td>
+                <td style="vertical-align: top;"> <ngb-rating [max]="5" [(rate)]="zahtev.zvezdice" [readonly]="false"></ngb-rating> </td>
+                <td style="vertical-align: middle;"> <button mat-raised-button color="primary" (click)="kategorisi(zahtev)">Kategorisi objekat</button>  </td>
+              </tr>
+             
+            </tbody>
+            
+          </table>
+          
+        </div>
+            <br/>
+          <br/>
+          <div *ngIf='messageKategorizacija' style="display: flex; justify-content: center;">
+              <i style="color:red"> {{messageKategorizacija}}</i>
+          </div>
+        
+            
+    </mat-tab>
+    <mat-tab label="Evidencija zaduzenja ugostitelja">
+        <div style="display: flex; justify-content: center;">
+        <table class="table table-striped" style="width: 50%;">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Zaduzenje </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let ugostitelj of sviUgostitelji; let index = index'>
+                <th scope="row" style="vertical-align: middle;">{{index + 1}}</th>
+                <td style="vertical-align: middle;">{{ugostitelj.ime}}</td>
+                <td style="vertical-align: middle;"> {{ugostitelj.prezime}} </td>
+                <td style="vertical-align: middle;"> {{ugostitelj.boravisnaTaksa}} </td>
+              </tr>
+             
+            </tbody>
+          </table>
+        </div>
+
+    </mat-tab>
+</mat-tab-group>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

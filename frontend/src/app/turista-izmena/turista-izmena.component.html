@@ -1,0 +1,108 @@
+<div id="nazad" style="position: absolute; top: 0; right: 0; z-index: 3;" (click)="nazad()">
+    <a class="btn btn-info btn-lg">
+      <span class="glyphicon glyphicon-log-out"></span> Nazad
+    </a>
+  </div>
+<div style="display:flex; justify-content: center;">
+<form class="example-form">
+
+    <table class="example-full-width" cellspacing="0"><tr>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Ime</mat-label>
+                <input type="text" matInput name="ime" [(ngModel)]="turista.ime"  />
+        
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Prezime</mat-label>
+                <input type="text" matInput name="prezime" [(ngModel)]="turista.prezime"  />
+        
+            </mat-form-field>
+        </td>
+        </tr>
+    </table>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Naziv objekta</mat-label>
+
+        <mat-select name='objekat' [(ngModel)]='turista.objekat' >
+            <mat-option *ngFor='let objekat of mojiObjekti' [value]="objekat.naziv">{{objekat.naziv}}  </mat-option>
+        </mat-select>
+
+    </mat-form-field>
+    
+    
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Kontakt telefon</mat-label>
+        <input type="text" matInput name="telefon" [(ngModel)]="turista.telefon"  />
+
+    </mat-form-field>
+
+    <table class="example-full-width" cellspacing="1"><tr>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Broj godina</mat-label>
+                <input type="text" matInput name="godine" [(ngModel)]="turista.godine"  />
+        
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Broj nocenja</mat-label>
+                <input type="text" matInput name="nocenje" [(ngModel)]="turista.nocenje"  />
+        
+            </mat-form-field>
+        </td>
+        </tr>
+    </table>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Datum evidencije turiste </mat-label>
+        <input matInput [matDatepicker]="picker" name="datum" [(ngModel)]="turista.datum">
+        <mat-datepicker-toggle matSuffix [for]="picker" >
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    
+    
+    
+        <div> <i> Lice upućeno na banjsko i klimatsko lečenje, odnosno specijalizovanu rehabilitaciju od strane nadležne lekarske komisije </i></div>
+        <mat-radio-group name="lecenje" aria-label="Select an option" [(ngModel)]="turista.lecenje">
+            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+        </mat-radio-group>
+
+        <div> <i> Lice sa invaliditetom </i></div>
+        <mat-radio-group name="invaliditet" aria-label="Select an option" [(ngModel)]="turista.invaliditet">
+            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+        </mat-radio-group>
+
+        <div> <i> Strani državljanin koji je po međunarodnim konvencijama i sporazumima oslobođen plaćanja takse </i></div>
+        <mat-radio-group name="straniOslobodjen" aria-label="Select an option" [(ngModel)]="turista.straniOslobodjen">
+            <mat-radio-button [value]="true" color="primary">Da</mat-radio-button>
+            <mat-radio-button [value]="false" color="primary">Ne</mat-radio-button>
+        </mat-radio-group>
+
+        <div><i>Vrednost boravisne takse je <b>{{turista.boravisnaTaksa}}</b> dinara </i></div>
+
+        <br/> <br/>
+        <div style="display: flex; justify-content: center;">
+            <button mat-raised-button color="primary"  (click)="potvrdiIzmene()">Potvrdi izmene</button>  
+            &nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="primary"  (click)="ukloni()">Ukloni korisnika</button>
+        </div>
+   
+    
+    <br/>
+    <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto; margin-right: auto; text-align: center; color: red;"> <b>{{message}}</b> </div>
+</form>
+</div>
+
+  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

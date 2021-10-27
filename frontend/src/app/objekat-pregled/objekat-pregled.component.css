@@ -1,0 +1,13 @@
+.example-card {
+    max-width: 500px;
+  }
+ 
+  .example-header-image {
+    background-size: cover;
+  }
+
+
+  ngb-rating {
+    color: yellow;
+    font-size: 30px;
+  }

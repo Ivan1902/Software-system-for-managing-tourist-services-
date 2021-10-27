@@ -1,0 +1,41 @@
+.example-container {
+    width: 400px;
+    height: 200px;
+    margin: 10px;
+    border: 1px solid #555;
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+
+  
+  td {
+    padding-right: 8px;
+  }
+  
+  
+  .example-header-image {
+    background-size: cover;
+  }
+
+.content {
+  padding: 16px;
+  overflow: auto;
+}
+rezultat {
+  overflow: auto ;
+  height: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+

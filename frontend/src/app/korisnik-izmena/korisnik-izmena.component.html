@@ -1,0 +1,71 @@
+<div id="nazad" style="position: absolute; top: 0; right: 0; z-index: 3;" (click)="nazad()">
+    <a class="btn btn-info btn-lg">
+      <span class="glyphicon glyphicon-log-out"></span> Nazad
+    </a>
+  </div>
+<div style="display:flex; justify-content: center;">
+<form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Ime</mat-label>
+        <input type="text" matInput name="ime" [(ngModel)]="korisnik.ime"  />
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Prezime</mat-label>
+        <input type="text" matInput name="prezime" [(ngModel)]="korisnik.prezime"  />
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Kontakt telefon</mat-label>
+        <input type="text" matInput name="telefon" [(ngModel)]="korisnik.brTelefona"  />
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput name="username" [(ngModel)]="korisnik.username"  />
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Lozinka</mat-label>
+        <input type="text" matInput name="password" [(ngModel)]="korisnik.password"  />
+
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Tip</mat-label>
+        <mat-select name='tip' [(ngModel)]='korisnik.tip'>
+            <mat-option value="pravno lice">Pravno lice</mat-option>
+            <mat-option value="preduzetnik">Preduzetnik</mat-option>
+            <mat-option value="fizicko lice">Fizicko lice</mat-option>
+            <mat-option value="ustanova">Ustanova</mat-option>
+            <mat-option value="ovlasceni">Ovlasceni korisnik</mat-option>
+          </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Registrovan kod nadleznog organa</mat-label>
+        <mat-select name='registrovan' [(ngModel)]='korisnik.registrovan'>
+            <mat-option value="true">Da</mat-option>
+            <mat-option value="false">Ne</mat-option>
+          </mat-select>
+    </mat-form-field>
+
+    
+        <div><i>Vrednost neplacene boravisne takse je <b>{{korisnik.boravisnaTaksa}}</b> dinara </i></div>
+
+        <br/> <br/>
+        <div style="display: flex; justify-content: center;">
+            <button mat-raised-button color="primary"  (click)="potvrdiIzmene()">Potvrdi izmene</button>  
+            &nbsp; &nbsp; &nbsp;
+            <button mat-raised-button color="primary"  (click)="ukloni()">Ukloni korisnika</button>
+        </div>
+   
+    
+    <br/>
+    <div *ngIf='message' style="font-style: italic; display: block;  margin-left: auto;
+     margin-right: auto; text-align: center; color: red"> <b>{{message}}</b> </div>
+</form>
+</div>
+
+  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -1,0 +1,32 @@
+<div id="nazad" style="position: absolute; top: 0; right: 0; z-index: 3;" (click)="nazad()">
+  <a class="btn btn-info btn-lg">
+    <span class="glyphicon glyphicon-log-out"></span> Nazad
+  </a>
+</div>
+
+<div style="display: flex; justify-content: center; ">
+<mat-card class="example-card" style="width: 100%; min-height: 100%">
+    <mat-card-header >
+        
+      <mat-card-title>{{objekat.naziv}}</mat-card-title>
+      <mat-card-subtitle>{{objekat.adresa}}</mat-card-subtitle>
+      <mat-card-subtitle>{{objekat.grad}}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf='objekat.zvezdice'><ngb-rating [max]="5" [(rate)]="objekat.zvezdice" [readonly]="true"></ngb-rating></mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="{{slika}}" alt="slika" >
+    <mat-card-content>
+      <p>
+        {{objekat.opis}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button  color="primary" (click)='previous()' >Prethodna</button>
+      <button mat-raised-button color="primary" (click)="next()" style="float: right;">Sledeca</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

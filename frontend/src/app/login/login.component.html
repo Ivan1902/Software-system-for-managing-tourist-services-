@@ -1,0 +1,22 @@
+
+<mat-card>
+    <mat-card-title>Prijava na sistem</mat-card-title>
+    <mat-card-content>
+        <form >
+            <!-- <mat-error *ngIf="loginInvalid">
+                The username and password were not recognised
+            </mat-error> -->
+            <mat-form-field class="full-width-input">
+                <input matInput placeholder="Korisnicko ime" name="username" [(ngModel)]='username' required>
+                
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+                <input matInput type="password" placeholder="Lozinka" name="password" [(ngModel)]='password' required>
+                
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="login()">Prijavi se</button>
+        </form>
+        <br/>
+        <mat-card-footer *ngIf='message' style="font-style: italic; color: red;"><b>{{message}}</b></mat-card-footer>
+    </mat-card-content>
+</mat-card>
