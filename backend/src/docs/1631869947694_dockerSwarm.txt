@@ -1,0 +1,59 @@
+cd ~/bin
+.\docker-machine.exe create manager --virtualbox-no-vtx-check
+.\docker-machine.exe create worker0 --virtualbox-no-vtx-check
+.\docker-machine.exe create worker1 --virtualbox-no-vtx-check
+.\docker-machine.exe ls // izlistavanje servera koje smo napravili
+.\docker-machine.exe ssh manager // pristup manager-u
+.\docker-machine.exe ssh worker0 // pristup worker0-u
+.\docker-machine.exe ssh worker1 // pristup worker1-u
+docker swarm init 
+docker swarm init --advertise-addr 192.168.99.106 //ova adresa nije fiksna, dobijam token koji prekopiram u worker-e
+docker node ls // koje cvorove imamo u menadzeru
+docker swarm join-token manager // za dobijanje tokena da se pristupi kao menadzeru
+docker swarm leave // da bi se WORKER(ne menadzer) iskljucio iz klastera
+docker node rm worker1 // ovo pokrenemo na MANAGER ako zelimo da worker1 bude down
+U docker engine ide IP adresa manager-a i port 5000
+zatim, na manager: sudo su
+cd /var/lib/boot2docker
+vi profile
+--insecure-registry 192.168.99.112:5000 ovo se doda u EXTRA_ARGS
+escape> : > wq  // na ovaj nacin izlazimo
+zatim 2 puta exit i onda .\docker-machine.exe restart manager
+.\docker-machine.exe ssh manager
+docker service create --name registry --replicas 1 --publish 5000:5000 registry:2 // kreiranje servisa
+docker service ls // za listanje servisa
+http://192.168.99.112:5000/v2/_catalog
+sledeca komanda ide u van managera i workera, u bin folderu
+docker image ls // ako nekog od potrebnih image nema, moramo da ga napravimo
+docker tag authenticationdbmigration 192.168.99.112:5000/authenticationdbmigration
+docker tag applicationsdbmigration 192.168.99.112:5000/applicationsdbmigration
+docker tag admin 192.168.99.112:5000/admin
+docker tag electionofficial 192.168.99.112:5000/electionofficial
+docker tag daemon 192.168.99.112:5000/daemon
+docker tag authentication 192.168.99.112:5000/authentication
+docker push 192.168.99.112:5000/authenticationdbmigration
+docker push 192.168.99.112:5000/applicationsdbmigration
+docker push 192.168.99.112:5000/admin
+docker push 192.168.99.112:5000/electionofficial
+docker push 192.168.99.112:5000/daemondoc
+docker push 192.168.99.112:5000/authentication
+na manager moram da povucem sve ove image
+docker pull 192.168.99.112:5000/authenticationdbmigration
+docker pull 192.168.99.112:5000/applicationsdbmigration
+docker pull 192.168.99.112:5000/admin
+docker pull 192.168.99.112:5000/electionofficial
+docker pull 192.168.99.112:5000/daemon
+docker pull 192.168.99.112:5000/authentication
+sada menjamo nazive
+docker tag 192.168.99.112:5000/authenticationdbmigration authenticationdbmigration
+docker tag 192.168.99.112:5000/applicationsdbmigration applicationsdbmigration
+docker tag 192.168.99.112:5000/admin admin
+docker tag 192.168.99.112:5000/electionofficial electionofficial
+docker tag 192.168.99.112:5000/daemon daemon
+docker tag 192.168.99.112:5000/authentication authentication
+cp /c/Users/Nedeljkovic/Desktop/IEP/Vezbe/projekat/stack.yaml stack.yaml
+cat stack.yaml
+docker stack deploy --compose-file stack.yaml project_stack
+docker service ls
+sacekaj da sve bude replicas 1/1 sem migracija
+
